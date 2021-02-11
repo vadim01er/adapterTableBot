@@ -31,10 +31,10 @@ public class CreateAnswer {
     }
 
     public void reply(TgResponse msg) throws IOException, GeneralSecurityException {
-        String[] s = msg.getMessage().getText().split(" ");
-        List<List<Object>> persons = sheetsQuickstart.findPerson(s[0]);
+        String s = msg.getMessage().getText();
+        List<List<Object>> persons = sheetsQuickstart.findPerson(s);
         if (persons == null || persons.isEmpty()) {
-            client.sendMessage("Не найден: " + s[0], msg.getMessage().getChat().getId());
+            client.sendMessage("Не найден: " + s, msg.getMessage().getChat().getId());
         } else {
             if (persons.size() > 1) {
                 client.sendMessage("find " + persons.size() + " persons:", msg.getMessage().getChat().getId());
