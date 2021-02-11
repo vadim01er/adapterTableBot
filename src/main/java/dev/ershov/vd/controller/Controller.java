@@ -1,6 +1,5 @@
 package dev.ershov.vd.controller;
 
-import dev.ershov.vd.client.ClientConfig;
 import dev.ershov.vd.client.CreateAnswer;
 import dev.ershov.vd.client.answer.tg.TgResponse;
 import org.springframework.http.HttpStatus;
