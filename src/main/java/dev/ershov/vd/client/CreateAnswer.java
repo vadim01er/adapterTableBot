@@ -2,9 +2,17 @@ package dev.ershov.vd.client;
 
 import dev.ershov.vd.GSheets.SheetsQuickstart;
 import dev.ershov.vd.client.answer.tg.TgResponse;
+import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
@@ -27,7 +35,7 @@ public class CreateAnswer {
                 "Номер телефона: " + person.get(5) + "\n" +
                 "Мотивационное письмо: " + person.get(6) + "\n" +
                 "Удобная дата очного этапа: " + person.get(7) + "\n" +
-                "Фото: " + person.get(8) + "\n";
+                "Фото:\n";
     }
 
     public void reply(TgResponse msg) throws IOException, GeneralSecurityException {
@@ -41,6 +49,9 @@ public class CreateAnswer {
             }
             for (List<Object> objects : persons) {
                 client.sendMessage(createAnswer(objects), msg.getMessage().getChat().getId());
+                File file = new File("C:\\Users\\Vadim\\IdeaProjects\\adapterTableBot\\src\\main\\resources\\static\\001.jpg");
+                InputStream input = new FileInputStream(file);
+                client.sendPhoto(input, "001.jpg", msg.getMessage().getChat().getId());
             }
         }
     }

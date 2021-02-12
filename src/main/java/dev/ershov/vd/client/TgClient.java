@@ -1,10 +1,20 @@
 package dev.ershov.vd.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,5 +54,44 @@ public class TgClient {
         log.info("trying GET request: " + url);
         final ResponseEntity<MessageResponse> response = template.getForEntity(url, MessageResponse.class);
         return response;
+    }
+
+    public String sendPhoto(InputStream file, String name,  int chatId) throws IOException {
+        final String url = getUrlRequest(
+                "sendPhoto",
+                new HashMap<>() {{
+                    put("chat_id", chatId);
+                }}
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        map.add("photo", new MultipartInputStreamFileResource(file, name));
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+        log.info("trying POST request: " + url);
+        final String response = template.postForObject(url, requestEntity, String.class);
+        return response;
+    }
+
+
+    class MultipartInputStreamFileResource extends InputStreamResource {
+
+        private final String filename;
+
+        MultipartInputStreamFileResource(InputStream inputStream, String filename) {
+            super(inputStream);
+            this.filename = filename;
+        }
+
+        @Override
+        public String getFilename() {
+            return this.filename;
+        }
+
+        @Override
+        public long contentLength() throws IOException {
+            return -1; // we do not want to generally read the whole stream into memory ...
+        }
     }
 }
