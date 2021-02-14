@@ -28,7 +28,7 @@ public class UsersService {
             userRepository.save(new User(name, comment));
         } else {
             User user = userRepository.findById(name).get();
-            user.setComment(user.getComment() + "\n" + comment);
+            user.setComment(user.getComment() + ";  " + comment);
             userRepository.save(user);
         }
     }
