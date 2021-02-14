@@ -27,7 +27,9 @@ public class UsersService {
         if (!userRepository.existsById(name)) {
             userRepository.save(new User(name, comment));
         } else {
-            userRepository.findById(name).ifPresent(user -> user.setComment(user.getComment() + "\n" + comment));
+            User user = userRepository.findById(name).get();
+            user.setComment(user.getComment() + "\n" + comment);
+            userRepository.save(user);
         }
     }
 }

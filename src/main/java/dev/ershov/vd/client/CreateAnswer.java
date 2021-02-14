@@ -54,6 +54,8 @@ public class CreateAnswer {
                 } else {
                     client.sendMessage("Ты еще никого не вводил", chatId);
                 }
+            } else if (s.equals("/site")) {
+                client.sendMessage("Вот сайт: https://adapter-table-bot.herokuapp.com/", chatId);
             }
         } else {
             List<List<Object>> persons = sheetsQuickstart.findPerson(s);
