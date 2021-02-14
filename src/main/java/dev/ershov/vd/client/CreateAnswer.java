@@ -46,7 +46,7 @@ public class CreateAnswer {
                 adminsService.addAdmin(chatId);
                 client.sendMessage("Погнали! Напиши мне ФИО или ФИ или Ф или И и получишь этого человека",
                         chatId);
-            } else if (s.split(" ")[0].equals("/comment")) {
+            } else if (s.split(" ")[0].equals("/c")) {
                 Admin byId = adminsService.findById(chatId);
                 if (!byId.getLastName().equals("null")) {
                     usersService.updateComment(byId.getLastName(), s.substring(9));
