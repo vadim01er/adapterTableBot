@@ -16,6 +16,10 @@ public class AdminsService {
         adminRepository.save(new Admin(chatId, "null"));
     }
 
+    public boolean existById(int chatId) {
+        return adminRepository.existsById(chatId);
+    }
+
     public Admin findById(int chatId) {
         return adminRepository.findById(chatId).orElse(null);
     }

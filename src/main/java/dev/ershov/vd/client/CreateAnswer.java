@@ -41,6 +41,9 @@ public class CreateAnswer {
     public void reply(TgResponse msg) throws IOException, GeneralSecurityException {
         String s = msg.getMessage().getText();
         int chatId = msg.getMessage().getChat().getId();
+        if (!adminsService.existById(chatId)) {
+            adminsService.addAdmin(chatId);
+        }
         if (s.startsWith("/")) {
             if (s.equals("/start")) {
                 adminsService.addAdmin(chatId);
