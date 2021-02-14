@@ -1,0 +1,61 @@
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Adapter table</title>
+</head>
+<body>
+<div align="center">
+    <h1>Адаптеры</h1>
+    <form method="get" action="{{test}}search">
+        <input type="text" name="keyword" />
+        <input type="submit" value="Search" />
+    </form>
+
+    <table border="0" cellpadding="5">
+        <tr>
+            <th><form action="/"><button>Все институты</button></form></th>
+            <th><form action="iknt"><button>ИКНТ</button></form></th>
+            <th><form action="ipmt"><button>ИПМЭиТ</button></form></th>
+            <th><form action="ici"><button>ИСИ</button></form></th>
+            <th><form action="gi"><button>ГИ</button></form></th>
+            <th><form action="immit"><button>ИММиТ</button></form></th>
+            <th><form action="ipmm"><button>ИПММ</button></form></th>
+            <th><form action="ifnit"><button>ИФНиТ</button></form></th>
+            <th><form action="ibcib"><button>ИБСИБ</button></form></th>
+            <th><form action="ia"><button>ИЭ</button></form></th>
+            <th><form action="icpo"><button>ИСПО</button></form></th>
+
+        </tr>
+    </table>
+
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Name</th>
+            <th>Институт</th>
+            <th>Номер_группы</th>
+            <th>Ссылка_ВКонтакте</th>
+            <th>Ссылка_Instagram</th>
+            <th>Phone</th>
+            <th>Мотивационное_письмо</th>
+            <th>Дата_очного_отбора</th>
+            <th>Фото</th>
+            <th>Комментарий</th>
+        </tr>
+        {{#listAdapter}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{university}}</td>
+                <td>{{group}}</td>
+                <td><a href="{{vk}}">vk</a></td>
+                <td><a href="{{inst}}">inst</a></td>
+                <td>{{phone}}</td>
+                <td>{{letter}}</td>
+                <td>{{date}}</td>
+                <td><a href="{{photo}}">photo</a></td>
+                <td>{{comment}}</td>
+            </tr>
+        {{/listAdapter}}
+    </table>
+</div>
+</body>
+</html>

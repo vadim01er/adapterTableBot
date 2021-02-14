@@ -1,4 +1,5 @@
 package dev.ershov.vd.GSheets;
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -67,24 +68,85 @@ public class SheetsQuickstart {
      */
     public List<List<Object>> findPerson(String name) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String spreadsheetId = "17_Zh3VvYUcQxNfL0QTQkem24obMRCqYulUyBTY4qjuY";
-        final String range = "LeadsFromTilda!A1:I";
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-        ValueRange response = service.spreadsheets().values()
-                .get(spreadsheetId, range)
-                .execute();
+        ValueRange response = autorizeSheet();
         List<List<Object>> values = response.getValues();
         if (values == null || values.isEmpty()) {
             System.out.println("No data found.");
             return null;
         } else {
-            for (List o : values) {
-                System.out.println(o.get(0));
+            String[] s = name.split(" ");
+            if (s.length == 3) {
+                return values.stream().filter(objects -> objects.get(0).equals(name)).collect(Collectors.toList());
+            } else if (s.length == 2) {
+                return values.stream().filter(objects -> {
+                    String[] obj = ((String) objects.get(0)).split(" ");
+                    return obj[0].equals(s[0]) && obj[1].equals(s[1]);
+                }).collect(Collectors.toList());
+            } else if (s.length == 1) {
+                return values.stream().filter(objects -> {
+                    String[] obj = ((String) objects.get(0)).split(" ");
+                    return obj[0].equals(s[0]) || obj[1].equals(s[0]);
+                }).collect(Collectors.toList());
+            } else {
+                return null;
             }
-            return values.stream().filter(objects -> objects.get(0).equals(name)).collect(Collectors.toList());
+        }
+    }
+
+    public List<List<Object>> getAll() throws IOException, GeneralSecurityException {
+        return autorizeSheet().getValues();
+    }
+
+    public List<List<Object>> getUniversity(String university) throws IOException, GeneralSecurityException {
+        ValueRange response = autorizeSheet();
+        List<List<Object>> values = response.getValues();
+        if (values == null || values.isEmpty()) {
+            System.out.println("No data found.");
+            return null;
+        } else {
+            return values.stream()
+                    .filter(objects -> objects.get(1).equals(university)).collect(Collectors.toList());
+        }
+    }
+
+    private ValueRange autorizeSheet() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        final String spreadsheetId = "17_Zh3VvYUcQxNfL0QTQkem24obMRCqYulUyBTY4qjuY";
+        final String range = "LeadsFromTilda!A2:I";
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        return service.spreadsheets().values()
+                .get(spreadsheetId, range)
+                .execute();
+    }
+
+    public List<List<Object>> getPersonAndUniversity(String university, String name)
+            throws GeneralSecurityException, IOException {
+        ValueRange response = autorizeSheet();
+        List<List<Object>> values = response.getValues();
+        if (values == null || values.isEmpty()) {
+            System.out.println("No data found.");
+            return null;
+        } else {
+            String[] s = name.split(" ");
+            if (s.length == 3) {
+                return values.stream()
+                        .filter(objects -> objects.get(0).equals(name) && objects.get(1).equals(university))
+                        .collect(Collectors.toList());
+            } else if (s.length == 2) {
+                return values.stream().filter(objects -> {
+                    String[] obj = ((String) objects.get(0)).split(" ");
+                    return obj[0].equals(s[0]) && obj[1].equals(s[1]) && objects.get(1).equals(university);
+                }).collect(Collectors.toList());
+            } else if (s.length == 1) {
+                return values.stream().filter(objects -> {
+                    String[] obj = ((String) objects.get(0)).split(" ");
+                    return (obj[0].equals(s[0]) || obj[1].equals(s[0])) && objects.get(1).equals(university);
+                }).collect(Collectors.toList());
+            } else {
+                return null;
+            }
         }
     }
 }
