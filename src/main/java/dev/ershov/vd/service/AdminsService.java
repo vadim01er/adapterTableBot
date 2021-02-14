@@ -24,6 +24,7 @@ public class AdminsService {
         Admin admin = adminRepository.findById(chatId).orElse(null);
         if (admin != null) {
             admin.setLastName(name);
+            adminRepository.save(admin);
             return true;
         }
         return false;
