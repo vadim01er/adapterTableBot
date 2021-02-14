@@ -74,7 +74,7 @@ public class CreateAnswer {
                     client.sendMessage(answer, chatId);
                 }
                 client.sendMessage(
-                        "Вы можете добавить комментарий к нему. Просто напишите: \"/comment *ваш комментарий*\"",
+                        "Вы можете добавить комментарий к нему. Просто напишите: \"/c *ваш комментарий*\"",
                         chatId
                 );
             }
