@@ -46,10 +46,10 @@ public class CreateAnswer {
                 adminsService.addAdmin(chatId);
                 client.sendMessage("Погнали! Напиши мне ФИО или ФИ или Ф или И и получишь этого человека",
                         chatId);
-            } else if (s.split(" ")[0].equals("/c")) {
+            } else if (s.split(" ")[0].equals("/c") || s.split(" ")[0].equals("/с")) {
                 Admin byId = adminsService.findById(chatId);
                 if (!byId.getLastName().equals("null")) {
-                    usersService.updateComment(byId.getLastName(), s.substring(9));
+                    usersService.updateComment(byId.getLastName(), s.substring(3));
                     client.sendMessage("Комментарий добавлен к " + byId.getLastName(), chatId);
                 } else {
                     client.sendMessage("Ты еще никого не вводил", chatId);
