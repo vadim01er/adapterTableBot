@@ -32,32 +32,31 @@ public class Controller {
 
     @PostMapping("/botTgTable")
     public String server(@RequestBody TgResponse msg) throws IOException, GeneralSecurityException {
-        System.out.println(":hi");
         createAnswer.reply(msg);
         return HttpStatus.OK.getReasonPhrase();
     }
 
     @GetMapping("/")
     public ModelAndView home(HttpServletRequest httpServletRequest, Map<String, Object> model) throws IOException, GeneralSecurityException {
-        if (httpServletRequest.isUserInRole("0")) {
+        if (httpServletRequest.isUserInRole("iknt")) {
             return iknt(model);
         } else if (httpServletRequest.isUserInRole("ipmt")) {
             return ipmt(model);
-        } else if (httpServletRequest.isUserInRole("2")) {
+        } else if (httpServletRequest.isUserInRole("ici")) {
             return ici(model);
-        } else if (httpServletRequest.isUserInRole("3")) {
+        } else if (httpServletRequest.isUserInRole("gi")) {
             return gi(model);
-        } else if (httpServletRequest.isUserInRole("4")) {
+        } else if (httpServletRequest.isUserInRole("immit")) {
             return immit(model);
-        } else if (httpServletRequest.isUserInRole("5")) {
+        } else if (httpServletRequest.isUserInRole("ipmm")) {
             return ipmm(model);
-        } else if (httpServletRequest.isUserInRole("6")) {
+        } else if (httpServletRequest.isUserInRole("ifnit")) {
             return ifnit(model);
-        } else if (httpServletRequest.isUserInRole("7")) {
+        } else if (httpServletRequest.isUserInRole("ibcib")) {
             return ibcib(model);
-        } else if (httpServletRequest.isUserInRole("8")) {
+        } else if (httpServletRequest.isUserInRole("ia")) {
             return ia(model);
-        } else if (httpServletRequest.isUserInRole("9")) {
+        } else if (httpServletRequest.isUserInRole("icpo")) {
             return icpo(model);
         }
         List<List<Object>> all = sheetsQuickstart.getAll();

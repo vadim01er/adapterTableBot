@@ -42,10 +42,15 @@ public class CreateAnswer {
     public void reply(TgResponse msg) throws IOException, GeneralSecurityException {
         String s = msg.getMessage().getText();
         int chatId = msg.getMessage().getChat().getId();
+
         if (s.equals("/start") || !usersTgService.existById(chatId)) {
             usersTgService.addUserTg(chatId);
             client.sendMessage("Погнали! Напиши мне свой идентификатор который дал тебе Админ!",
                     chatId);
+            return;
+        }
+        if (s.equals("/site")) {
+            client.sendMessage("https://adapter-table-bot.herokuapp.com/", chatId);
             return;
         }
         UserTg userTg = usersTgService.findById(chatId);
@@ -158,6 +163,7 @@ public class CreateAnswer {
                             adapters = sheetsQuickstart.findUniversityAndPerson(getUniversity(userTg.getUniversity()), s);
                         }
                         String s1 = s.split(" ")[0];
+                        System.out.println(adapters.size());
                         if (Integer.parseInt(s1) <= adapters.size() && Integer.parseInt(s1) > 0) {
                             String o = (String) adapters.get(Integer.parseInt(s1) - 1).get(0);
                             adaptersService.updateComment(o, s.substring(s1.length() + 1));
