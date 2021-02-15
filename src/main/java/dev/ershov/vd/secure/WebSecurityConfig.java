@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        httpSecurity
                 .authorizeRequests()
                 .antMatchers("/iknt", "/iknt/search").hasRole("iknt")
                 .antMatchers("/ipmt", "/ipmt/search").hasRole("ipmt")
