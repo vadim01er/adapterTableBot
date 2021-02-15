@@ -24,6 +24,10 @@ public class CustomAuthencationProvider implements AuthenticationProvider {
         //получаем пользователя
         UserDetails myUser = dao.loadUserByUsername(userName);
         //смотрим, найден ли пользователь в базе
+        System.out.println(password);
+        System.out.println(myUser.getPassword());
+        System.out.println(password.equals(myUser.getPassword()));
+
         if (myUser == null) {
             throw new BadCredentialsException("Unknown user "+userName);
         }
