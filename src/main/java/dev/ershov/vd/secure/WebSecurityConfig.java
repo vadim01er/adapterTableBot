@@ -56,14 +56,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-        System.out.println("3");
         auth
                 .authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
     protected PasswordEncoder passwordEncoder() {
-        System.out.println("2");
         return NoOpPasswordEncoder.getInstance();
     }
 
@@ -72,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(usersWebServices);
-        System.out.println("1");
         return daoAuthenticationProvider;
     }
 }
