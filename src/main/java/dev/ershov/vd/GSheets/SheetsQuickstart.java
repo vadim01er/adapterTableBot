@@ -121,7 +121,7 @@ public class SheetsQuickstart {
                 .execute();
     }
 
-    public List<List<Object>> getPersonAndUniversity(String university, String name)
+    public List<List<Object>> findUniversityAndPerson(String university, String name)
             throws GeneralSecurityException, IOException {
         ValueRange response = autorizeSheet();
         List<List<Object>> values = response.getValues();

@@ -10,11 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "admins")
+@Table(name = "users_tg")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
+public class UserTg {
 
     @Id
     @Column(name = "user_id")
@@ -23,4 +23,12 @@ public class Admin {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "role")
+    private int role;
+
+    @Column(name = "university")
+    private int university;
+
+    @Column(name = "one")
+    private boolean one;
 }
