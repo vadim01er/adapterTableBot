@@ -55,48 +55,48 @@ public class CreateAnswer {
                 switch (s) {
                     case "0555": //икнт
                         usersTgService.updateUserTg(chatId, 1, 0);
-                        client.sendMessage("Ты прикреплен к ИКНТ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИКНТ напиши имя человека", chatId);
                         break;
                     case "0426":
                         usersTgService.updateUserTg(chatId, 1, 1);
-                        client.sendMessage("Ты прикреплен к ИПМЭиТ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИПМЭиТ напиши имя человека", chatId);
                         break;
                     case "0738":
                         usersTgService.updateUserTg(chatId, 1, 2);
-                        client.sendMessage("Ты прикреплен к ИСИ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИСИ напиши имя человека", chatId);
                         break;
                     case "0813":
                         usersTgService.updateUserTg(chatId, 1, 3);
-                        client.sendMessage("Ты прикреплен к ГИ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ГИ напиши имя человека", chatId);
                         break;
                     case "0692":
                         usersTgService.updateUserTg(chatId, 1, 4);
-                        client.sendMessage("Ты прикреплен к ИММиТ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИММиТ напиши имя человека", chatId);
                         break;
                     case "0217":
                         usersTgService.updateUserTg(chatId, 1, 5);
-                        client.sendMessage("Ты прикреплен к ИПММ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИПММ напиши имя человека", chatId);
                         break;
                     case "0964":
                         usersTgService.updateUserTg(chatId, 1, 6);
-                        client.sendMessage("Ты прикреплен к ИФНиТ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИФНиТ напиши имя человека", chatId);
                         break;
                     case "0073":
                         usersTgService.updateUserTg(chatId, 1, 7);
-                        client.sendMessage("Ты прикреплен к ИБСИБ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИБСИБ напиши имя человека", chatId);
                         break;
                     case "0154":
                         usersTgService.updateUserTg(chatId, 1, 8);
-                        client.sendMessage("Ты прикреплен к ИЭ напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИЭ напиши имя человека", chatId);
                         break;
                     case "0341":
                         usersTgService.updateUserTg(chatId, 1, 9);
-                        client.sendMessage("Ты прикреплен к ИСПО напиши имя человека" + s, chatId);
+                        client.sendMessage("Ты прикреплен к ИСПО напиши имя человека", chatId);
                         break;
                     case "0777":
                         usersTgService.updateUserTg(chatId, 1, 100);
                         client.sendMessage("Ты прикреплен к ADMIN" +
-                                "(можете получать по всем людям информацию) напиши имя человека" + s, chatId);
+                                "(можете получать по всем людям информацию) напиши имя человека", chatId);
                         break;
                     default:
                         client.sendMessage("Вы ввели неверный индикатор: " + s, chatId);
