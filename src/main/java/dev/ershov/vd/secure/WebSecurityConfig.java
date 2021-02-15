@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        httpSecurity
                 .authorizeRequests()
                 .antMatchers("/", "/iknt", "/iknt/search", "/ipmt", "/ipmt/search", "/ici",
                         "/ici/search", "/gi", "/gi/search", "/immit", "/immit/search", "/ipmm",
@@ -44,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/ibcib", "/ibcib/search").hasRole("ibcib")
                 .antMatchers("/ia", "/ia/search").hasRole("ia")
                 .antMatchers("/icpo", "/icpo/search").hasRole("icpo")
-                .antMatchers(HttpMethod.POST ,"/botTgTable").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
