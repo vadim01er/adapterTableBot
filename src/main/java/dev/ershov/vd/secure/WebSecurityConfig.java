@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 @Configuration
@@ -21,18 +22,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers(HttpMethod.POST ,"/botTgTable");
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/iknt", "/iknt/search", "/ipmt", "/ipmt/search", "/ici",
-                        "/ici/search", "/gi", "/gi/search", "/immit", "/immit/search", "/ipmm",
-                        "/ipmm/search", "/ifnit", "/ifnit/search", "/ibcib", "/ibcib/search",
-                        "/ia", "/ia/search", "/icpo", "/icpo/search").hasRole("ADMIN")
                 .antMatchers("/iknt", "/iknt/search").hasRole("iknt")
                 .antMatchers("/ipmt", "/ipmt/search").hasRole("ipmt")
                 .antMatchers("/ici", "/ici/search").hasRole("ici")
@@ -43,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/ibcib", "/ibcib/search").hasRole("ibcib")
                 .antMatchers("/ia", "/ia/search").hasRole("ia")
                 .antMatchers("/icpo", "/icpo/search").hasRole("icpo")
+                .antMatchers("/").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -52,7 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(usersWebServices)

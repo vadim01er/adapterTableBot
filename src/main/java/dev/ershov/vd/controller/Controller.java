@@ -38,7 +38,9 @@ public class Controller {
 
     @GetMapping("/")
     public ModelAndView home(HttpServletRequest httpServletRequest, Map<String, Object> model) throws IOException, GeneralSecurityException {
-        if (httpServletRequest.isUserInRole("iknt")) {
+        if (httpServletRequest.isUserInRole("ADMIN")) {
+
+        } else if (httpServletRequest.isUserInRole("iknt")) {
             return iknt(model);
         } else if (httpServletRequest.isUserInRole("ipmt")) {
             return ipmt(model);
