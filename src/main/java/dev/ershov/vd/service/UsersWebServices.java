@@ -1,7 +1,6 @@
 package dev.ershov.vd.service;
 
 import dev.ershov.vd.entities.UserWebRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

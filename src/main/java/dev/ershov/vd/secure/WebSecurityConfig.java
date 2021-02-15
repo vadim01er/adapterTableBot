@@ -1,25 +1,27 @@
 package dev.ershov.vd.secure;
 
 import dev.ershov.vd.service.UsersWebServices;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UsersWebServices usersWebServices;
-    private final CustomAuthencationProvider customAuthencationProvider;
 
-    public WebSecurityConfig(UsersWebServices usersWebServices, CustomAuthencationProvider customAuthencationProvider) {
+    public WebSecurityConfig( UsersWebServices usersWebServices) {
         this.usersWebServices = usersWebServices;
-        this.customAuthencationProvider = customAuthencationProvider;
     }
 
     @Override
@@ -51,8 +53,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
+
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(customAuthencationProvider);
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth
+                .authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Bean
+    protected PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean
+    protected DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(usersWebServices);
+        return daoAuthenticationProvider;
     }
 }
