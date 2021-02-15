@@ -42,7 +42,7 @@ public class CreateAnswer {
     public void reply(TgResponse msg) throws IOException, GeneralSecurityException {
         String s = msg.getMessage().getText();
         int chatId = msg.getMessage().getChat().getId();
-        if (s.equals("/start") || usersTgService.existById(chatId)) {
+        if (s.equals("/start") || !usersTgService.existById(chatId)) {
             usersTgService.addUserTg(chatId);
             client.sendMessage("Погнали! Напиши мне свой идентификатор который дал тебе Админ!",
                     chatId);
