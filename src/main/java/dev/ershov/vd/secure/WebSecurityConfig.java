@@ -9,16 +9,17 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UsersWebServices usersWebServices;
+    private final CustomAuthencationProvider customAuthencationProvider;
 
-    public WebSecurityConfig(UsersWebServices usersWebServices) {
+    public WebSecurityConfig(UsersWebServices usersWebServices, CustomAuthencationProvider customAuthencationProvider) {
         this.usersWebServices = usersWebServices;
+        this.customAuthencationProvider = customAuthencationProvider;
     }
 
     @Override
@@ -29,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/iknt", "/iknt/search").hasRole("iknt")
                 .antMatchers("/ipmt", "/ipmt/search").hasRole("ipmt")
@@ -52,7 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(usersWebServices)
-                .passwordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(customAuthencationProvider);
     }
 }
