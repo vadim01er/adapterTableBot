@@ -154,13 +154,19 @@ public class CreateAnswer {
                 UserTg byId = usersTgService.findById(chatId);
                 if (!byId.getLastName().equals("null")) {
                     if (byId.isOne()) {
-                        adaptersService.updateComment(byId.getLastName(), s);
+                        adaptersService.updateComment(
+                                (String)sheetsQuickstart.findPerson(byId.getLastName()).get(0).get(0),
+                                s
+                        );
                         client.sendMessage("Комментарий добавлен к " + byId.getLastName(), chatId);
                     } else {
                         if (userTg.getUniversity() == 100) {
-                            adapters = sheetsQuickstart.findPerson(s);
+                            adapters = sheetsQuickstart.findPerson(byId.getLastName());
                         } else {
-                            adapters = sheetsQuickstart.findUniversityAndPerson(getUniversity(userTg.getUniversity()), s);
+                            adapters = sheetsQuickstart.findUniversityAndPerson(
+                                    getUniversity(userTg.getUniversity()),
+                                    byId.getLastName()
+                            );
                         }
                         String s1 = s.split(" ")[0];
                         System.out.println(adapters.size());

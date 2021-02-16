@@ -18,7 +18,7 @@ public class UserTg {
 
     @Id
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
     @Column(name = "last_name")
     private String lastName;

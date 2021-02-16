@@ -39,7 +39,7 @@ public class Controller {
     @GetMapping("/")
     public ModelAndView home(HttpServletRequest httpServletRequest, Map<String, Object> model) throws IOException, GeneralSecurityException {
         if (httpServletRequest.isUserInRole("ADMIN")) {
-
+            return admin(model);
         } else if (httpServletRequest.isUserInRole("iknt")) {
             return iknt(model);
         } else if (httpServletRequest.isUserInRole("ipmt")) {
@@ -58,9 +58,12 @@ public class Controller {
             return ibcib(model);
         } else if (httpServletRequest.isUserInRole("ia")) {
             return ia(model);
-        } else if (httpServletRequest.isUserInRole("icpo")) {
+        } else {
             return icpo(model);
         }
+    }
+
+    public ModelAndView admin(Map<String, Object> model) throws IOException, GeneralSecurityException {
         List<List<Object>> all = sheetsQuickstart.getAll();
         if (all != null && !all.isEmpty()) {
             List<AdapterSheet> adapterSheets = getAdapters(all);
