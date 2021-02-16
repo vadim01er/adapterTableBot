@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+        httpSecurity.httpBasic().and()
                 .authorizeRequests()
                 .antMatchers("/iknt", "/iknt/search").hasAnyRole("ADMIN", "iknt")
                 .antMatchers("/ipmt", "/ipmt/search").hasAnyRole("ADMIN", "ipmt")

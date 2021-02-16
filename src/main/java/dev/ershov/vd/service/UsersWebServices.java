@@ -14,7 +14,7 @@ public class UsersWebServices implements UserDetailsService {
     public UsersWebServices(UserWebRepository userRepository) {
         this.userRepository = userRepository;
     }
-//$2a$10$Twhxxtr37jCg5xePHOlQsuZ7T9ysZ41XSsqv26cENK9ktHdR2yjx6
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails user = userRepository.findByUsername(username);
