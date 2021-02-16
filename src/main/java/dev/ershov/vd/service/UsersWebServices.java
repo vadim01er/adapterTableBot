@@ -17,13 +17,13 @@ public class UsersWebServices implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         UserDetails user = userRepository.findByUsername(username);
 
         if (user == null) {
+            System.out.println("User not found");
             throw new UsernameNotFoundException("User not found");
         }
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
 
         return user;
     }

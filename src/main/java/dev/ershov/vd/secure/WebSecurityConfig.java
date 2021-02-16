@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -26,18 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        web.ignoring().antMatchers(HttpMethod.POST ,"/botTgTable");
 //    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin-2")
-                .password(passwordEncoder().encode("R04jYKHKx6")).roles("ADMIN");
-    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.httpBasic().and()
+        httpSecurity.csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/").permitAll()
                 .antMatchers("/iknt", "/iknt/search").hasAnyRole("ADMIN", "iknt")
                 .antMatchers("/ipmt", "/ipmt/search").hasAnyRole("ADMIN", "ipmt")
                 .antMatchers("/ici", "/ici/search").hasAnyRole("ADMIN", "ici")
@@ -49,26 +43,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/ia", "/ia/search").hasAnyRole("ADMIN", "ia")
                 .antMatchers("/icpo", "/icpo/search").hasAnyRole("ADMIN", "icpo")
                 .antMatchers("/").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
+                .loginPage("/login")
                 .defaultSuccessUrl("/")
+                .permitAll()
                 .and()
                 .logout()
                 .permitAll();
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(usersWebServices)
+                .passwordEncoder(passwordEncoder());
+    }
 
     @Bean
     protected PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+        return NoOpPasswordEncoder.getInstance();
     }
 
-    @Bean
-    protected DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(usersWebServices);
-        return daoAuthenticationProvider;
-    }
+//    @Bean
+//    protected DaoAuthenticationProvider daoAuthenticationProvider() {
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        daoAuthenticationProvider.setUserDetailsService(usersWebServices);
+//        return daoAuthenticationProvider;
+//    }
 }
