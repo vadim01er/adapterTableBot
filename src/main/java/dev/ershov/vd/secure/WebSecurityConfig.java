@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -24,25 +23,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.usersWebServices = usersWebServices;
     }
 
+//    @Override
+//    public void configure(WebSecurity web) {
+//        web.ignoring().antMatchers(HttpMethod.POST ,"/botTgTable");
+//    }
+
     @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(HttpMethod.POST ,"/botTgTable");
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth
+                .authenticationProvider(daoAuthenticationProvider());
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/iknt", "/iknt/search").hasRole("iknt")
-                .antMatchers("/ipmt", "/ipmt/search").hasRole("ipmt")
-                .antMatchers("/ici", "/ici/search").hasRole("ici")
-                .antMatchers("/gi", "/gi/search").hasRole("gi")
-                .antMatchers("/immit", "/immit/search").hasRole("immit")
-                .antMatchers("/ipmm", "/ipmm/search").hasRole("ipmm")
-                .antMatchers("/ifnit", "/ifnit/search").hasRole("ifnit")
-                .antMatchers("/ibcib", "/ibcib/search").hasRole("ibcib")
-                .antMatchers("/ia", "/ia/search").hasRole("ia")
-                .antMatchers("/icpo", "/icpo/search").hasRole("icpo")
+                .antMatchers("/iknt", "/iknt/search").hasAnyRole("ADMIN", "iknt")
+                .antMatchers("/ipmt", "/ipmt/search").hasAnyRole("ADMIN", "ipmt")
+                .antMatchers("/ici", "/ici/search").hasAnyRole("ADMIN", "ici")
+                .antMatchers("/gi", "/gi/search").hasAnyRole("ADMIN", "gi")
+                .antMatchers("/immit", "/immit/search").hasAnyRole("ADMIN", "immit")
+                .antMatchers("/ipmm", "/ipmm/search").hasAnyRole("ADMIN", "ipmm")
+                .antMatchers("/ifnit", "/ifnit/search").hasAnyRole("ADMIN", "ifnit")
+                .antMatchers("/ibcib", "/ibcib/search").hasAnyRole("ADMIN", "ibcib")
+                .antMatchers("/ia", "/ia/search").hasAnyRole("ADMIN", "ia")
+                .antMatchers("/icpo", "/icpo/search").hasAnyRole("ADMIN", "icpo")
                 .antMatchers("/").hasRole("ADMIN")
                 .and()
                 .formLogin()
@@ -54,15 +59,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth
-                .authenticationProvider(daoAuthenticationProvider());
-    }
 
     @Bean
     protected PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder(10);
     }
 
     @Bean
