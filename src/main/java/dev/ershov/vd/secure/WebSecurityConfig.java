@@ -27,27 +27,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth
-                .authenticationProvider(daoAuthenticationProvider());
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("admin-2")
+                .password(passwordEncoder().encode("R04jYKHKx6")).roles("ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-//                .antMatchers("/iknt", "/iknt/search").hasAnyRole("ADMIN", "iknt")
-//                .antMatchers("/ipmt", "/ipmt/search").hasAnyRole("ADMIN", "ipmt")
-//                .antMatchers("/ici", "/ici/search").hasAnyRole("ADMIN", "ici")
-//                .antMatchers("/gi", "/gi/search").hasAnyRole("ADMIN", "gi")
-//                .antMatchers("/immit", "/immit/search").hasAnyRole("ADMIN", "immit")
-//                .antMatchers("/ipmm", "/ipmm/search").hasAnyRole("ADMIN", "ipmm")
-//                .antMatchers("/ifnit", "/ifnit/search").hasAnyRole("ADMIN", "ifnit")
-//                .antMatchers("/ibcib", "/ibcib/search").hasAnyRole("ADMIN", "ibcib")
-//                .antMatchers("/ia", "/ia/search").hasAnyRole("ADMIN", "ia")
-//                .antMatchers("/icpo", "/icpo/search").hasAnyRole("ADMIN", "icpo")
-//                .antMatchers("/").hasRole("ADMIN")
+//                .antMatchers("/").permitAll()
+                .antMatchers("/iknt", "/iknt/search").hasAnyRole("ADMIN", "iknt")
+                .antMatchers("/ipmt", "/ipmt/search").hasAnyRole("ADMIN", "ipmt")
+                .antMatchers("/ici", "/ici/search").hasAnyRole("ADMIN", "ici")
+                .antMatchers("/gi", "/gi/search").hasAnyRole("ADMIN", "gi")
+                .antMatchers("/immit", "/immit/search").hasAnyRole("ADMIN", "immit")
+                .antMatchers("/ipmm", "/ipmm/search").hasAnyRole("ADMIN", "ipmm")
+                .antMatchers("/ifnit", "/ifnit/search").hasAnyRole("ADMIN", "ifnit")
+                .antMatchers("/ibcib", "/ibcib/search").hasAnyRole("ADMIN", "ibcib")
+                .antMatchers("/ia", "/ia/search").hasAnyRole("ADMIN", "ia")
+                .antMatchers("/icpo", "/icpo/search").hasAnyRole("ADMIN", "icpo")
+                .antMatchers("/").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
