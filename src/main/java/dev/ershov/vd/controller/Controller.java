@@ -58,6 +58,8 @@ public class Controller {
             return ibcib(model);
         } else if (httpServletRequest.isUserInRole("ia")) {
             return ia(model);
+        } else if (httpServletRequest.isUserInRole("ikizi")) {
+            return ikizi(model);
         } else {
             return icpo(model);
         }
@@ -241,7 +243,7 @@ public class Controller {
 
     @GetMapping("/ibcib")
     public ModelAndView ibcib(Map<String, Object> model) throws IOException, GeneralSecurityException {
-        List<List<Object>> onlyIpmt = sheetsQuickstart.getUniversity("ИБСИБ");
+        List<List<Object>> onlyIpmt = sheetsQuickstart.getUniversity("ИБСиБ");
         if (onlyIpmt != null && !onlyIpmt.isEmpty()) {
             List<AdapterSheet> adapterSheets = getAdapters(onlyIpmt);
             model.put("listAdapter", adapterSheets);
@@ -252,7 +254,7 @@ public class Controller {
 
     @GetMapping("/ibcib/search")
     public ModelAndView ibcibSearch(String keyword, Map<String, Object> model) throws IOException, GeneralSecurityException {
-        List<List<Object>> onlyIknt = sheetsQuickstart.findUniversityAndPerson("ИБСИБ", keyword);
+        List<List<Object>> onlyIknt = sheetsQuickstart.findUniversityAndPerson("ИБСиБ", keyword);
         if (onlyIknt != null && !onlyIknt.isEmpty()) {
             List<AdapterSheet> adapterSheets = getAdapters(onlyIknt);
             model.put("listAdapter", adapterSheets);
@@ -302,6 +304,28 @@ public class Controller {
             model.put("listAdapter", adapterSheets);
         }
         model.put("search", "ИСПО: " + keyword);
+        return new ModelAndView("search", model);
+    }
+
+    @GetMapping("/ikizi")
+    public ModelAndView ikizi(Map<String, Object> model) throws IOException, GeneralSecurityException {
+        List<List<Object>> onlyIpmt = sheetsQuickstart.getUniversity("ИКиЗИ");
+        if (onlyIpmt != null && !onlyIpmt.isEmpty()) {
+            List<AdapterSheet> adapterSheets = getAdapters(onlyIpmt);
+            model.put("listAdapter", adapterSheets);
+        }
+        model.put("test", "ikizi/");
+        return new ModelAndView("index", model);
+    }
+
+    @GetMapping("/ikizi/search")
+    public ModelAndView ikiziSearch(String keyword, Map<String, Object> model) throws IOException, GeneralSecurityException {
+        List<List<Object>> onlyIknt = sheetsQuickstart.findUniversityAndPerson("ИКиЗИ", keyword);
+        if (onlyIknt != null && !onlyIknt.isEmpty()) {
+            List<AdapterSheet> adapterSheets = getAdapters(onlyIknt);
+            model.put("listAdapter", adapterSheets);
+        }
+        model.put("search", "ИКиЗИ: " + keyword);
         return new ModelAndView("search", model);
     }
 

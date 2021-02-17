@@ -43,8 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/ibcib", "/ibcib/search").hasAnyRole("ADMIN", "ibcib")
                     .antMatchers("/ia", "/ia/search").hasAnyRole("ADMIN", "ia")
                     .antMatchers("/icpo", "/icpo/search").hasAnyRole("ADMIN", "icpo")
+                .antMatchers("/ikizi", "/ikizi/search").hasAnyRole("ADMIN", "ikizi")
                     .antMatchers("/").hasAnyRole("ADMIN", "iknt", "ipmt", "ici", "gi", "immit",
-                        "ipmm", "ifnit", "ibcib", "ia", "icpo")
+                        "ipmm", "ifnit", "ibcib", "ia", "icpo", "ikizi")
                 .and()
                     .formLogin()
                     .loginPage("/login")

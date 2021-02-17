@@ -32,12 +32,20 @@ public class AdapterSheet {
         this.name = name;
         this.university = university;
         this.group = group;
-        this.vk = vk;
+        if (vk.startsWith("http://")) {
+            this.vk = vk;
+        } else {
+            this.vk = "https://" + vk;
+        }
+        if (inst.startsWith("http://")) {
+            this.vk = inst;
+        } else {
+            this.inst = "https://" + inst;
+        }
         this.inst = inst;
         this.phone = phone;
         this.letter = letter;
         this.date = date;
         this.photo = photo;
     }
-
 }

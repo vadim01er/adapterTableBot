@@ -88,7 +88,7 @@ public class CreateAnswer {
                         break;
                     case "0073":
                         usersTgService.updateUserTg(chatId, 1, 7);
-                        client.sendMessage("Ты прикреплен к ИБСИБ напиши имя человека", chatId);
+                        client.sendMessage("Ты прикреплен к ИБСиБ напиши имя человека", chatId);
                         break;
                     case "0154":
                         usersTgService.updateUserTg(chatId, 1, 8);
@@ -204,7 +204,7 @@ public class CreateAnswer {
             case 6:
                 return "ИФНиТ";
             case 7:
-                return "ИБСИБ";
+                return "ИБСиБ";
             case 8:
                 return "ИЭ";
             case 9:
