@@ -32,13 +32,13 @@ public class AdapterSheet {
         this.name = name;
         this.university = university;
         this.group = group;
-        if (vk.startsWith("http://")) {
+        if (vk.startsWith("https://")) {
             this.vk = vk;
         } else {
             this.vk = "https://" + vk;
         }
-        if (inst.startsWith("http://")) {
-            this.vk = inst;
+        if (inst.startsWith("https://")) {
+            this.inst = inst;
         } else {
             this.inst = "https://" + inst;
         }
