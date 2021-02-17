@@ -98,6 +98,10 @@ public class CreateAnswer {
                         usersTgService.updateUserTg(chatId, 1, 9);
                         client.sendMessage("Ты прикреплен к ИСПО напиши имя человека", chatId);
                         break;
+                    case "0631":
+                        usersTgService.updateUserTg(chatId, 1, 10);
+                        client.sendMessage("Ты прикреплен к ИКиЗИ напиши имя человека", chatId);
+                        break;
                     case "0777":
                         usersTgService.updateUserTg(chatId, 1, 100);
                         client.sendMessage("Ты прикреплен к ADMIN" +
@@ -209,6 +213,8 @@ public class CreateAnswer {
                 return "ИЭ";
             case 9:
                 return "ИСПО";
+            case 10:
+                return "ИКиЗИ";
             default:
                 return "All";
         }
