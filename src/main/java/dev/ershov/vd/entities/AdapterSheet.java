@@ -42,7 +42,6 @@ public class AdapterSheet {
         } else {
             this.inst = "https://" + inst;
         }
-        this.inst = inst;
         this.phone = phone;
         this.letter = letter;
         this.date = date;
