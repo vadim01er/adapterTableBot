@@ -102,9 +102,9 @@ public class Controller {
             onlyUniversity = sheetsQuickstart.getUniversity(name);
         }
         if (onlyUniversity != null && !onlyUniversity.isEmpty()) {
+            new File(downloadPath).mkdir();
             File file = new File(downloadPath + "/" + filename + ".xls");
             try {
-                file.mkdir();
                 file.createNewFile();
                 Workbook book = new HSSFWorkbook();
                 Sheet sheet = book.createSheet("Адаптеры " + name);
