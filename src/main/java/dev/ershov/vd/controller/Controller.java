@@ -121,7 +121,7 @@ public class Controller {
                 row.createCell(8).setCellValue("Комментарий");
                 for (int i = 1; i <= adapterSheets.size(); i++) {
                     Row rowAdapter = sheet.createRow(i);
-                    AdapterSheet adapterSheet = adapterSheets.get(i);
+                    AdapterSheet adapterSheet = adapterSheets.get(i - 1);
                     rowAdapter.createCell(0).setCellValue(adapterSheet.getName());
                     rowAdapter.createCell(1).setCellValue(adapterSheet.getGroup());
                     rowAdapter.createCell(2).setCellValue(adapterSheet.getVk());
