@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +104,7 @@ public class Controller {
         if (onlyUniversity != null && !onlyUniversity.isEmpty()) {
             File file = new File(downloadPath + "/" + filename + ".xls");
             try {
+                file.mkdir();
                 file.createNewFile();
                 Workbook book = new HSSFWorkbook();
                 Sheet sheet = book.createSheet("Адаптеры " + name);
