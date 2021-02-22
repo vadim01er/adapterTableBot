@@ -1,9 +1,7 @@
 <html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Adapter table</title>
-    <link rel="SHORTCUT ICON" href="../icons/favicon.ico" sizes="16x16" type="image/x-icon">
-    <link rel="SHORTCUT ICON" href="../icons/favicon(1).ico" sizes="32x32" type="image/x-icon">
+    <title>Adapter Table Pro</title>
 </head>
 <body>
 <div align="center">
@@ -12,26 +10,82 @@
         <input type="submit" value="Sign Out"/>
     </form>
     <form method="get" action="{{test}}search">
-        <input type="text" name="keyword" />
-        <input type="submit" value="Search" />
+        <input type="text" name="keyword"/>
+        <input type="submit" value="Search"/>
     </form>
-
+</div>
+<div align="right">
+    {{#filename}}
+        <form action="/download/{{filename}}" method="get">
+            <input type="submit" value="Download EXEL"/>
+        </form>
+    {{/filename}}
+</div>
+<div align="center">
     <table border="0" cellpadding="5">
         {{#isAdmin}}
-        <tr>
-            <th><form action="/"><button>Все институты</button></form></th>
-            <th><form action="iknt"><button>ИКНТ</button></form></th>
-            <th><form action="ipmt"><button>ИПМЭиТ</button></form></th>
-            <th><form action="ici"><button>ИСИ</button></form></th>
-            <th><form action="gi"><button>ГИ</button></form></th>
-            <th><form action="immit"><button>ИММиТ</button></form></th>
-            <th><form action="ipmm"><button>ИПММ</button></form></th>
-            <th><form action="ifnit"><button>ИФНиТ</button></form></th>
-            <th><form action="ibcib"><button>ИБСиБ</button></form></th>
-            <th><form action="ia"><button>ИЭ</button></form></th>
-            <th><form action="icpo"><button>ИСПО</button></form></th>
-            <th><form action="ikizi"><button>ИКиЗИ</button></form></th>
-        </tr>
+            <tr>
+                <th>
+                    <form action="/">
+                        <button>Все институты</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="iknt">
+                        <button>ИКНТ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="ipmt">
+                        <button>ИПМЭиТ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="ici">
+                        <button>ИСИ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="gi">
+                        <button>ГИ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="immit">
+                        <button>ИММиТ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="ipmm">
+                        <button>ИПММ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="ifnit">
+                        <button>ИФНиТ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="ibcib">
+                        <button>ИБСиБ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="ia">
+                        <button>ИЭ</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="icpo">
+                        <button>ИСПО</button>
+                    </form>
+                </th>
+                <th>
+                    <form action="ikizi">
+                        <button>ИКиЗИ</button>
+                    </form>
+                </th>
+            </tr>
         {{/isAdmin}}
     </table>
 

@@ -13,6 +13,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
@@ -24,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class SheetsQuickstart {
     private static final String APPLICATION_NAME = "Quickstart";
@@ -39,6 +42,7 @@ public class SheetsQuickstart {
 
     /**
      * Creates an authorized Credential object.
+     *
      * @param HTTP_TRANSPORT The network HTTP Transport.
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
@@ -61,17 +65,32 @@ public class SheetsQuickstart {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    /**
-     * Prints the names and majors of students in a sample spreadsheet:
-     * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-     * @return
-     */
-    public List<List<Object>> findPerson(String name) throws IOException, GeneralSecurityException {
+    private ValueRange autorizeSheet() {
+        try {
+            final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            final String spreadsheetId = "17_Zh3VvYUcQxNfL0QTQkem24obMRCqYulUyBTY4qjuY";
+            final String range = "LeadsFromTilda!A2:I";
+            Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                    .setApplicationName(APPLICATION_NAME)
+                    .build();
+            return service.spreadsheets().values()
+                    .get(spreadsheetId, range)
+                    .execute();
+        } catch (GeneralSecurityException e) {
+            log.warn("With GoogleNetHttpTransport");
+        } catch (IOException e) {
+            log.warn("With Google execute (may be no have access)");
+        }
+        return null;
+    }
+
+
+    public List<List<Object>> findPerson(String name) {
         // Build a new authorized API client service.
         ValueRange response = autorizeSheet();
         List<List<Object>> values = response.getValues();
         if (values == null || values.isEmpty()) {
-            System.out.println("No data found.");
+            log.error("No data found.");
             return null;
         } else {
             String[] s = name.split(" ");
@@ -93,11 +112,11 @@ public class SheetsQuickstart {
         }
     }
 
-    public List<List<Object>> getAll() throws IOException, GeneralSecurityException {
+    public List<List<Object>> getAll() {
         return autorizeSheet().getValues();
     }
 
-    public List<List<Object>> getUniversity(String university) throws IOException, GeneralSecurityException {
+    public List<List<Object>> getUniversity(String university) {
         ValueRange response = autorizeSheet();
         List<List<Object>> values = response.getValues();
         if (values == null || values.isEmpty()) {
@@ -109,20 +128,7 @@ public class SheetsQuickstart {
         }
     }
 
-    private ValueRange autorizeSheet() throws GeneralSecurityException, IOException {
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String spreadsheetId = "17_Zh3VvYUcQxNfL0QTQkem24obMRCqYulUyBTY4qjuY";
-        final String range = "LeadsFromTilda!A2:I";
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-        return service.spreadsheets().values()
-                .get(spreadsheetId, range)
-                .execute();
-    }
-
-    public List<List<Object>> findUniversityAndPerson(String university, String name)
-            throws GeneralSecurityException, IOException {
+    public List<List<Object>> findUniversityAndPerson(String university, String name) {
         ValueRange response = autorizeSheet();
         List<List<Object>> values = response.getValues();
         if (values == null || values.isEmpty()) {

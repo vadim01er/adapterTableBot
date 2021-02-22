@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +53,7 @@ public class TgClient {
         return response;
     }
 
-    public String sendPhoto(InputStream file, String name,  int chatId) throws IOException {
+    public String sendPhoto(InputStream file, String name,  int chatId) {
         final String url = getUrlRequest(
                 "sendPhoto",
                 new HashMap<>() {{
@@ -74,8 +71,7 @@ public class TgClient {
         return response;
     }
 
-
-    class MultipartInputStreamFileResource extends InputStreamResource {
+    public class MultipartInputStreamFileResource extends InputStreamResource {
 
         private final String filename;
 
@@ -90,7 +86,7 @@ public class TgClient {
         }
 
         @Override
-        public long contentLength() throws IOException {
+        public long contentLength() {
             return -1; // we do not want to generally read the whole stream into memory ...
         }
     }

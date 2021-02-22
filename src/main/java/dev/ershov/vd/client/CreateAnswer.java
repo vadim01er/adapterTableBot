@@ -7,8 +7,6 @@ import dev.ershov.vd.service.AdaptersService;
 import dev.ershov.vd.service.UsersTgService;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.List;
 
 @Component
@@ -39,7 +37,7 @@ public class CreateAnswer {
     }
 
 
-    public void reply(TgResponse msg) throws IOException, GeneralSecurityException {
+    public void reply(TgResponse msg) {
         String s = msg.getMessage().getText();
         int chatId = msg.getMessage().getChat().getId();
 
@@ -118,7 +116,7 @@ public class CreateAnswer {
                 }
 
                 if (userTg.getUniversity() == 100) {
-                    adapters =sheetsQuickstart.findPerson(s);
+                    adapters = sheetsQuickstart.findPerson(s);
                 } else {
                     adapters = sheetsQuickstart.findUniversityAndPerson(getUniversity(userTg.getUniversity()), s);
                 }
