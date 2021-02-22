@@ -102,17 +102,35 @@ public class Controller {
             onlyUniversity = sheetsQuickstart.getUniversity(name);
         }
         if (onlyUniversity != null && !onlyUniversity.isEmpty()) {
+            List<AdapterSheet> adapterSheets = getAdapters(onlyUniversity);
             new File(downloadPath).mkdir();
             File file = new File(downloadPath + "/" + filename + ".xls");
             try {
                 file.createNewFile();
                 Workbook book = new HSSFWorkbook();
                 Sheet sheet = book.createSheet("Адаптеры " + name);
-                for (int i = 0; i < onlyUniversity.size(); i++) {
-                    Row row = sheet.createRow(i);
-                    for (int j = 0; j < onlyUniversity.get(i).size(); j++) {
-                        row.createCell(j).setCellValue((String) onlyUniversity.get(i).get(j));
-                    }
+                Row row = sheet.createRow(0);
+                row.createCell(0).setCellValue("Имя");
+                row.createCell(1).setCellValue("Номер_группы");
+                row.createCell(2).setCellValue("ВКонтакте");
+                row.createCell(3).setCellValue("Instagram");
+                row.createCell(4).setCellValue("Phone");
+                row.createCell(5).setCellValue("Мотивационное_письмо");
+                row.createCell(6).setCellValue("Дата_очного_отбора");
+                row.createCell(7).setCellValue("Фото");
+                row.createCell(8).setCellValue("Комментарий");
+                for (int i = 1; i <= adapterSheets.size(); i++) {
+                    Row rowAdapter = sheet.createRow(i);
+                    AdapterSheet adapterSheet = adapterSheets.get(i);
+                    rowAdapter.createCell(0).setCellValue(adapterSheet.getName());
+                    rowAdapter.createCell(1).setCellValue(adapterSheet.getGroup());
+                    rowAdapter.createCell(2).setCellValue(adapterSheet.getVk());
+                    rowAdapter.createCell(3).setCellValue(adapterSheet.getInst());
+                    rowAdapter.createCell(4).setCellValue(adapterSheet.getPhone());
+                    rowAdapter.createCell(5).setCellValue(adapterSheet.getLetter());
+                    rowAdapter.createCell(6).setCellValue(adapterSheet.getDate());
+                    rowAdapter.createCell(7).setCellValue(adapterSheet.getPhoto());
+                    rowAdapter.createCell(8).setCellValue(adapterSheet.getComment());
                 }
                 book.write(new FileOutputStream(file));
                 InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
