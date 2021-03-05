@@ -7,6 +7,7 @@ import dev.ershov.vd.service.AdaptersService;
 import dev.ershov.vd.service.UsersTgService;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -24,16 +25,31 @@ public class CreateAnswer {
         this.adaptersService = adaptersService;
     }
 
-    private String createAnswer(List<Object> person) {
-        return "Имя:  " + person.get(0) + "\n" +
+    private List<String> createAnswer(List<Object> person) {
+        String answer = "Имя:  " + person.get(0) + "\n" +
                 "Институт:  " + person.get(1) + "\n" +
                 "Номер группы:  " + person.get(2) + "\n" +
                 "Ссылка vk: " + person.get(3) + "\n" +
                 "Ссылка instagram: " + person.get(4) + "\n" +
-                "Номер телефона:  " + person.get(5) + "\n" +
-                "Мотивационное письмо:  " + person.get(6) + "\n" +
-                "Удобная дата очного этапа:  " + person.get(7) + "\n" +
+                "Номер телефона:  " + person.get(5) + "\n";
+        String answerEnd = "Удобная дата очного этапа:  " + person.get(7) + "\n" +
                 "Фото: " + person.get(8);
+        List<String> list = new ArrayList<>();
+        String letter = (String) person.get(6);
+        if (letter.length() + answer.length() + answerEnd.length() > 3000) {
+            list.add(answer);
+            for (int i = 0; i < letter.length(); i += 3000) {
+                if (letter.length() - i < 3000) {
+                    list.add(letter.substring(i, letter.length() - 1));
+                } else {
+                    list.add(letter.substring(i, i + 3000 - 1));
+                }
+            }
+            list.add(answerEnd);
+        } else {
+            list.add(answer + letter + answerEnd);
+        }
+        return list;
     }
 
 
@@ -133,9 +149,11 @@ public class CreateAnswer {
                     }
                     usersTgService.updateLastNameAndOne(chatId, s, isOne);
                     for (int i = 0; i < adapters.size(); i++) {
-                        String answer = createAnswer(adapters.get(i));
-                        if (!isOne) answer = "" + (i + 1) + ". " + answer;
-                        client.sendMessage(answer, chatId);
+                        List<String> answer = createAnswer(adapters.get(i));
+                        if (!isOne)
+                            answer.set(0, "" + (i + 1) + ". " + answer.get(0));
+                        for (String value : answer)
+                            client.sendMessage(value, chatId);
                     }
                     if (isOne) {
                         client.sendMessage(
@@ -157,7 +175,7 @@ public class CreateAnswer {
                 if (!byId.getLastName().equals("null")) {
                     if (byId.isOne()) {
                         adaptersService.updateComment(
-                                (String)sheetsQuickstart.findPerson(byId.getLastName()).get(0).get(0),
+                                (String) sheetsQuickstart.findPerson(byId.getLastName()).get(0).get(0),
                                 s
                         );
                         client.sendMessage("Комментарий добавлен к " + byId.getLastName(), chatId);
@@ -171,9 +189,16 @@ public class CreateAnswer {
                             );
                         }
                         String s1 = s.split(" ")[0];
-                        System.out.println(adapters.size());
-                        if (Integer.parseInt(s1) <= adapters.size() && Integer.parseInt(s1) > 0) {
-                            String o = (String) adapters.get(Integer.parseInt(s1) - 1).get(0);
+                        int i;
+                        try {
+                            i = Integer.parseInt(s1);
+                        } catch (NumberFormatException e) {
+                            client.sendMessage("Первым словом твоего комментария должен быть номер человека",
+                                    chatId);
+                            return;
+                        }
+                        if (i <= adapters.size() && i > 0) {
+                            String o = (String) adapters.get(i - 1).get(0);
                             adaptersService.updateComment(o, s.substring(s1.length() + 1));
                             client.sendMessage("Комментарий добавлен к " + o, chatId);
                         } else {
