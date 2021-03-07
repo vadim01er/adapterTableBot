@@ -1,5 +1,6 @@
 package dev.ershov.vd.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpEntity;
@@ -50,8 +51,14 @@ public class TgClient {
                     put("text", message);
                 }}
         );
-        log.info("trying GET request: " + url);
-        final ResponseEntity<MessageResponse> response = template.getForEntity(url, MessageResponse.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("chat_id", String.valueOf(chatId));
+        map.add("text", message);
+        log.info("trying POST request: " + url);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        final ResponseEntity<MessageResponse> response = template.postForEntity(url, request, MessageResponse.class);
         return response;
     }
 
