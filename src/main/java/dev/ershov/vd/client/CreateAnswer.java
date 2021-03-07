@@ -32,7 +32,7 @@ public class CreateAnswer {
                 "Ссылка vk: " + person.get(3) + "\n" +
                 "Ссылка instagram: " + person.get(4) + "\n" +
                 "Номер телефона:  " + person.get(5) + "\n";
-        String answerEnd = "Удобная дата очного этапа:  " + person.get(7) + "\n" +
+        String answerEnd = "\nУдобная дата очного этапа:  " + person.get(7) + "\n" +
                 "Фото: " + person.get(8);
         List<String> list = new ArrayList<>();
         String letter = (String) person.get(6);
