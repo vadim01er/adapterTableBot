@@ -13,7 +13,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,7 +45,7 @@ public class TgClient {
     public ResponseEntity<MessageResponse> sendMessage(String message, int chatId) {
         final String url = getUrlRequest(
                 "sendMessage",
-                new HashMap<>() {{
+                new LinkedHashMap<>() {{
                     put("chat_id", chatId);
                     put("text", message);
                 }}
