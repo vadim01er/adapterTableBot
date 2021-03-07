@@ -43,14 +43,13 @@ public class TgClient {
         return requestURL;
     }
 
+    private String getUrlRequest(String methodName) {
+
+        return String.format(tgClientConfig.getRequestUrlTemplate(), tgClientConfig.getToken(), methodName);
+    }
+
     public ResponseEntity<MessageResponse> sendMessage(String message, int chatId) {
-        final String url = getUrlRequest(
-                "sendMessage",
-                new LinkedHashMap<>() {{
-                    put("chat_id", chatId);
-                    put("text", message);
-                }}
-        );
+        final String url = getUrlRequest("sendMessage");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
