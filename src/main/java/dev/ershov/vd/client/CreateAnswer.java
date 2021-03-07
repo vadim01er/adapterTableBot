@@ -40,9 +40,9 @@ public class CreateAnswer {
             list.add(answer);
             for (int i = 0; i < letter.length(); i += 3000) {
                 if (letter.length() - i < 3000) {
-                    list.add(letter.substring(i, letter.length() - 1));
+                    list.add(letter.substring(i));
                 } else {
-                    list.add(letter.substring(i, i + 3000 - 1));
+                    list.add(letter.substring(i, i + 3000));
                 }
             }
             list.add(answerEnd);

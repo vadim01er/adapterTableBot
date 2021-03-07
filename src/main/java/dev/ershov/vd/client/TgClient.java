@@ -55,7 +55,7 @@ public class TgClient {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("chat_id", String.valueOf(chatId));
         map.add("text", message);
-        log.info("trying POST request: " + url);
+        log.info("trying POST request: " + url + " chat_id = " + chatId + "text = " + message.substring(0, 30));
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         final ResponseEntity<MessageResponse> response = template.postForEntity(url, request, MessageResponse.class);
         return response;
