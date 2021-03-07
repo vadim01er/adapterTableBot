@@ -44,8 +44,8 @@ public class TgClient {
         final String url = getUrlRequest(
                 "sendMessage",
                 new HashMap<>() {{
-                    put("text", message);
                     put("chat_id", chatId);
+                    put("text", message);
                 }}
         );
         log.info("trying GET request: " + url);
