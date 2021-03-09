@@ -200,9 +200,10 @@ public class CreateAnswer {
                         if (i <= adapters.size() && i > 0) {
                             String o = (String) adapters.get(i - 1).get(0);
                             try {
-                                adaptersService.updateComment(o, s.substring(s1.length() + 1));
+                                String substring = s.substring(s1.length() + 1);
+                                adaptersService.updateComment(o, substring);
                                 client.sendMessage("Комментарий добавлен к " + o, chatId);
-                            } catch (NumberFormatException e) {
+                            } catch (IndexOutOfBoundsException e) {
                                 client.sendMessage("Первым словом твоего комментария должен быть номер человека!",
                                         chatId);
                             }
