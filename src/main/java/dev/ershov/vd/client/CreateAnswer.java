@@ -199,8 +199,13 @@ public class CreateAnswer {
                         }
                         if (i <= adapters.size() && i > 0) {
                             String o = (String) adapters.get(i - 1).get(0);
-                            adaptersService.updateComment(o, s.substring(s1.length() + 1));
-                            client.sendMessage("Комментарий добавлен к " + o, chatId);
+                            try {
+                                adaptersService.updateComment(o, s.substring(s1.length() + 1));
+                                client.sendMessage("Комментарий добавлен к " + o, chatId);
+                            } catch (NumberFormatException e) {
+                                client.sendMessage("Первым словом твоего комментария должен быть номер человека!",
+                                        chatId);
+                            }
                         } else {
                             client.sendMessage("Твоё число не в диапазоне, попробуй еще раз", chatId);
                             return;
