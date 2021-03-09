@@ -54,6 +54,9 @@ public class CreateAnswer {
 
 
     public void reply(TgResponse msg) {
+        if (msg.getMessage() == null) {
+            return;
+        }
         String s = msg.getMessage().getText();
 
         int chatId = msg.getMessage().getChat().getId();
